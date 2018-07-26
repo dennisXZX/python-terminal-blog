@@ -4,7 +4,7 @@ from models.blog import Blog
 
 class Menu():
     def __init__(self):
-        self.user = input('Enter your author name: ')
+        self.user = input('Enter your author name: ') or 'Dennis'
         self.user_blog = None
 
         if self._user_has_account():
@@ -33,7 +33,7 @@ class Menu():
 
     def run_menu(self):
         # User read or write blogs?
-        read_or_write = input('Do you want to read (R) or write (W) blogs? ')
+        read_or_write = input('Do you want to read (R) or write (W) blogs? ') or 'R'
 
         if read_or_write == 'R':
             self._list_blogs()
@@ -47,16 +47,19 @@ class Menu():
         self.user_blog.new_post()
 
     def _list_blogs(self):
+        # retrieve all the blog documents
         blogs = Database.find(collection='blogs',
                               query={})
 
+        # iterate the blogs  each blog document
         for blog in blogs:
             print('ID: {}, Title: {}, Author: {}'.format(blog['id'], blog['title'], blog['author']))
 
     def _view_blog(self):
-        blog_to_see = input("Enter the ID of the blog you'd like to read: ")
+        blog_to_see = input("Enter the ID of the blog you'd like to read: ") or '5c0d7e250ba044e58ee3655cd61b9c26'
         blog = Blog.from_mongo(blog_to_see)
         posts = blog.get_posts()
 
         for post in posts:
-            print("Date: {}, title: {}\n\n{}".format(post['created_date'], post['title'], post['content']))
+            print("======================")
+            print("Title: {}\nDate: {}\n\n{}\n".format(post['title'], post['created_date'], post['content']))
