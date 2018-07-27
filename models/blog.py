@@ -12,7 +12,9 @@ class Blog():
         self.description = description
         self.id = uuid.uuid4().hex if id is None else id
 
+    # create a new post
     def new_post(self):
+        # ask users for the post info
         title = input('Enter post title: ')
         content = input('Enter post contents: ')
         created_date = input('Enter post date, or leave blank for today (in format DDMMYYYY): ')
@@ -23,12 +25,14 @@ class Blog():
         else:
             created_date = datetime.datetime.strptime(created_date, "%d%m%Y")
 
+        # create a post
         post = Post(blog_id=self.id,
                     title=title,
                     content=content,
                     author=self.author,
                     created_date=created_date)
 
+        # save the post to database
         post.save_to_mongo()
 
     def get_posts(self):
@@ -48,10 +52,13 @@ class Blog():
 
     @classmethod
     def from_mongo(cls, id):
+        # find the blog with the specified id
         blog_data = Database.find_one(collection='blogs',
                                       query={'id': id})
 
+        # create a Blog object, cls() represents the current class
+        # so later when we change the class name our code is still intact
         return cls(author=blog_data['author'],
-                    title=blog_data['author'],
-                    description=blog_data['description'],
-                    id=blog_data['id'])
+                   title=blog_data['author'],
+                   description=blog_data['description'],
+                   id=blog_data['id'])

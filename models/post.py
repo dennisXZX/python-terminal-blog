@@ -5,7 +5,7 @@ import datetime
 
 class Post():
 
-    # method that return the post with the specified id
+    # return the post with the specified id
     @classmethod
     def from_mongo(cls, id):
         post_data = Database.find_one(collection='posts', query={'id': id})
@@ -17,7 +17,8 @@ class Post():
             created_date=post_data['created_date'],
             id=post_data['id'])
 
-    # method that return all the posts associated the specified blog
+    # return all the posts associated with the specified blog
+    # use list comprehension to convert the MongoDB cursor into a list
     @staticmethod
     def from_blog(id):
         return [post for post in Database.find(collection='posts', query={'blog_id': id})]

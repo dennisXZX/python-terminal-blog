@@ -24,11 +24,15 @@ class Menu():
     def _prompt_user_for_account(self):
         title = input('Enter blog title: ')
         description = input('Enter blog description: ')
+
+        # create a Blog object
         blog = Blog(author=self.user,
                     title=title,
                     description=description)
 
+        # save the blog to database
         blog.save_to_mongo()
+
         self.user_blog = blog
 
     def run_menu(self):
@@ -61,5 +65,8 @@ class Menu():
         posts = blog.get_posts()
 
         for post in posts:
+            # extract only the date
+            created_date = post['created_date'].strftime("%Y-%m-%d")
+
             print("======================")
-            print("Title: {}\nDate: {}\n\n{}\n".format(post['title'], post['created_date'], post['content']))
+            print("Title: {}\nDate: {}\n\n{}\n".format(post['title'], created_date, post['content']))
