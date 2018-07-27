@@ -18,6 +18,10 @@ class Database():
         Database.DATABASE[collection].insert(data)
 
     @staticmethod
+    def update(collection, query, data):
+        Database.DATABASE[collection].update(query, data)
+
+    @staticmethod
     def find(collection, query):
         return Database.DATABASE[collection].find(query)
 

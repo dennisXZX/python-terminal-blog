@@ -37,18 +37,24 @@ class Menu():
 
     def run_menu(self):
         # User read or write blogs?
-        read_or_write = input('Do you want to read (R) or write (W) blogs? ') or 'R'
+        read_or_write = input('Do you want to read (R), write (W) or update (U) blogs? ') or 'R'
 
         if read_or_write == 'R':
             self._list_blogs()
             self._view_blog()
         elif read_or_write == 'W':
             self._prompt_write_post()
+        elif read_or_write == 'U':
+            self._update_post()
         else:
             print('Thank you for blogging!')
+            exit()
 
     def _prompt_write_post(self):
         self.user_blog.new_post()
+
+    def _update_post(self):
+        self.user_blog.update_post()
 
     def _list_blogs(self):
         # retrieve all the blog documents

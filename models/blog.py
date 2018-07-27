@@ -35,6 +35,26 @@ class Blog():
         # save the post to database
         post.save_to_mongo()
 
+    # update the post specified by an id
+    def update_post(self):
+        post_id = input('Enter the post id you want to update: ') or '0cec98c7490f4837be44f7e4dd19323d'
+        new_title = input('Enter new post title: ') or 'new title'
+        new_content = input('Enter new post contents: ') or 'new content'
+
+        Database.update(
+            collection='posts',
+            query={
+                'id': post_id
+            },
+            data={
+                '$set': {
+                    'title': new_title,
+                    'content': new_content
+                }
+            }
+        )
+
+
     def get_posts(self):
         return Post.from_blog(self.id)
 
